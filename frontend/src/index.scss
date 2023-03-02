@@ -1,0 +1,42 @@
+@use '../node_modules/sass-mq/mq' as * with ($breakpoints: (
+    mobile: 320px,
+    tablet: 740px,
+    desktop: 980px,
+    wide: 1300px,
+  ));
+
+@use '../node_modules/sass-mq/mq';
+
+@import url('https://fonts.googleapis.com/css?family=Nothing+You+Could+Do');
+
+@import url('https://fonts.googleapis.com/css?family=Kaushan+Script');
+@import url('https://fonts.googleapis.com/css?family=Special+Elite');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/rpg-awesome/0.2.0/css/rpg-awesome.min.css');
+
+
+html,
+body {
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+#app {
+
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+
