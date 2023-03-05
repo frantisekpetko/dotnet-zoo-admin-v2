@@ -193,7 +193,7 @@ namespace API.Data {
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Animal> Animal { get; set; }
+        public DbSet<Animal> Animals { get; set; }
 
         public DbSet<Image> Images { get; set; }
 

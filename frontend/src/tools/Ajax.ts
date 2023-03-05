@@ -21,11 +21,11 @@ Ajax.interceptors.response.use(
     },
     function (error) {
         function handleHttpError(e: any) {
-            console.log(e)
+            console.warn(JSON.parse(JSON.stringify(e)));
             const { statusCode } = e.response.data;
 
             if (statusCode !== 401) {
-                throw e;
+                //throw e;
             } else {
                 window.location.href = '/login';
             }

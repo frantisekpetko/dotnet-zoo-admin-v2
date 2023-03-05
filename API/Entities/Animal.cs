@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace API.Entities
 {
-    
     [Table("animal")]
     public class Animal: BaseEntity
     {
@@ -16,7 +16,6 @@ namespace API.Entities
 
         [JsonProperty("latinname")]
         public string Latinname { get; set; }
-
 
         [JsonProperty("description")]
         public string Description { get; set; }

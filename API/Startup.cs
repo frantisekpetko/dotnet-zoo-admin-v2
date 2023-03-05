@@ -23,9 +23,12 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using System.Net;
 using API.Errors;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using System.Text.Json.Serialization;
+
 namespace API
 {
     public class Startup
@@ -44,7 +47,7 @@ namespace API
             services.AddControllers();
             services.AddCors();
             services.AddIdentityServices(_config);
-            services.AddControllers().AddNewtonsoftJson();
+            //services.AddControllers().AddNewtonsoftJson();
 
 
             services.AddResponseCompression(options =>
@@ -63,6 +66,18 @@ namespace API
             {
                 options.Level = CompressionLevel.Optimal;
             });
+
+            /*
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
+            */
+            services.AddControllers().AddNewtonsoftJson(
+                options => 
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
 
 
         }
@@ -92,7 +107,8 @@ namespace API
                     EnableDefaultFiles = true
             });
 
-         
+
+
 
 
             //app.UseHttpsRedirection();

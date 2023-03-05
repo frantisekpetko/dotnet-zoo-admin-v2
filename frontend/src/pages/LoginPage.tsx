@@ -65,9 +65,20 @@ const LoginPage: FC = (props: any) => {
                 toast.dismiss();
 
                 console.log('errorMessage', error);
-                const message = error.response.data.message;
+
+                let errorMessage = { message: 'Unknown error' };
+
+                if (error.response.data.hasOwnProperty('errors')) {
+                    errorMessage = error.response.data.errors;
+                }
+
+                if (error.response.data.hasOwnProperty('message')) {
+                    errorMessage = error.response.data.message;
+                }
+
+                //const message = error.response.data.message;
                 toast.error((
-                    <ToastErrorMessage message={message} />
+                    <ToastErrorMessage message={errorMessage} />
                 ), {
                     position: "top-center",
                     autoClose: 5000,

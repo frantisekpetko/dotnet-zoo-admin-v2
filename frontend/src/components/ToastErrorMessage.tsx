@@ -16,7 +16,7 @@ const ErrorList = styled.ul`
     margin: 0.5em;
 `;
 
-type Constraint = string[] | { response: { message: string } } | { response: { message: string[] } };
+type Constraint = string[] | { response: { message: string } } | { response: { message: string[] } } | { message: string } | {[property: string]: string};
 
 interface Props {
     message: Constraint
@@ -28,7 +28,7 @@ const ToastErrorMessage: FunctionComponent<Props> = (props) => {
 
     const renderMessageArray = (errors: any): Constraint => {
         console.log('errors', errors);
-        let constraints: any = null;
+        let constraints: any = [];
         if (Array.isArray(errors)) {
             constraints = errors.map((constraint, idx) => <li key={idx}>{constraint}</li>);
         }
@@ -39,6 +39,14 @@ const ToastErrorMessage: FunctionComponent<Props> = (props) => {
         if (errors.hasOwnProperty('response') && errors.response.hasOwnProperty('message') && Array.isArray(errors.response.message)) {
             constraints = errors.response.message.map((constraint: string, idx: number) => <li key={idx}>{constraint}</li>);
         }
+        
+        if (typeof errors === 'object' && errors !== null) {
+ 
+            Object.keys(errors).map((key: string, idx: number) => {
+                errors[key].map((err, id) => {constraints.push(<li key={`${idx} ${id}`}>{err}</li>)});
+            })
+        }
+        
 
         return constraints;
     };

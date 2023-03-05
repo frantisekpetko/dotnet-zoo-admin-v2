@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace API.Entities
 {
@@ -12,7 +13,9 @@ namespace API.Entities
         [JsonProperty("urlName")]
         public string UrlName { get; set; }
 
+
         public int AnimalId { get; set; }
+
         public Animal Animal { get; set; }
 
 

@@ -58,8 +58,21 @@ const RegisterPage: FC = (props: any) => {
             });
 
         } catch (error: any) {
-            //console.log('errorMessage', error);
-            const errorMessage = error.response.data.message;
+            console.log('errorMessage', JSON.parse(JSON.stringify(error.response.data.errors)));
+
+            let errorMessage = {message: 'Unknown error'};
+
+            if (error.response.data.hasOwnProperty('errors'))
+            {
+                errorMessage = error.response.data.errors;
+            }
+
+            if (error.response.data.hasOwnProperty('message'))
+            {
+                errorMessage = error.response.data.message;
+            }
+
+            //const errorMessage = error.response.data.message;
             toast.error((
                 <ToastErrorMessage message={errorMessage} />
             ), {

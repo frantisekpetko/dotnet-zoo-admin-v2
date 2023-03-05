@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerDto)
         {
             
             if (await UserExists(registerDto.Username))
@@ -58,7 +58,7 @@ namespace API.Controllers
             .SingleOrDefaultAsync(x => x.Username == loginDto.Username);
             
             if (user == null) {
-                return JsonSerializer.Serialize(Unauthorized("Invalid username"));
+                return Unauthorized(new { message = "Invalid username"});
             }
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -67,7 +67,7 @@ namespace API.Controllers
 
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized(new { message = "Invalid password"});
             }
 
             return new UserDto

@@ -62,7 +62,6 @@ C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\API.deps.json
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\API.runtimeconfig.json
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\API.runtimeconfig.dev.json
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\API.dll
-C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\ref\API.dll
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\API.pdb
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\Humanizer.dll
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
@@ -116,4 +115,9 @@ C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\Data\animals.json
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
-C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\API.csprojAssemblyReference.cache
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\staticwebassets\API.StaticWebAssets.Pack.cache
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\staticwebassets\msbuild.API.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\staticwebassets\msbuild.build.API.props
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\staticwebassets\msbuild.buildMultiTargeting.API.props
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\staticwebassets\msbuild.buildTransitive.API.props
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\obj\Debug\net5.0\refint\API.dll
