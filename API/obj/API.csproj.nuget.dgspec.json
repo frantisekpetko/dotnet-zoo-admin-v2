@@ -74,6 +74,10 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.27.0, )"
+            },
+            "WinstonPuckett.PipeExtensions": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             }
           },
           "imports": [

@@ -20,6 +20,45 @@ namespace API.Controllers
             _context = context;
         }
 
+        [HttpGet("/pages")]
+        public async Task<ActionResult<int>> getPagesLength(
+            [FromQuery(Name = "page")] int page = 1,
+            [FromQuery(Name = "limit")] int limit = 12,
+            [FromQuery(Name = "search")] string search = ""
+        )
+        {
+           List<Animal> animals = await this.getAll(page, limit, search);
+           return Ok(Math.Ceiling((double) animals.Count / limit));
+        }
+
+        public async Task<Animal> getAll(
+            int page = 1,
+            int limit = 12,
+            string search = ""
+)
+        {
+            Console.WriteLine(search);
+
+            List<Animal> animals = await _context.Animals
+                    .Include(a => a.Images)
+                    .ToListAsync();
+
+
+            return animals
+                .Where(
+                    x =>
+                        x.Name.ToLower().Contains(search.ToLower()) ||
+                        x.Latinname.ToLower().Contains(search.ToLower())
+                 )
+                .Skip(page == 1 ? 0 : (page - 1) * limit)
+                .Take(limit)
+                .ToList();
+
+
+  
+
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<Animal>>> findAll(
             [FromQuery(Name = "page")] int page = 1,
@@ -27,12 +66,9 @@ namespace API.Controllers
             [FromQuery(Name = "search")] string search = ""
         )
         {
-            //
-            //
-            //List<Animal> data = new List<Animal>();
-            //var data = null;
+            return await getAll(page, limit, search); 
             //search = search.ToLower();
-            Console.WriteLine(search);
+            
             /*return await _context.Animals
                     .Where(
                         x =>
@@ -40,6 +76,8 @@ namespace API.Controllers
                         EF.Functions.Like(EF.Functions.Collate(x.Latinname.ToLower(), "SQL_Latin1_General_CP1_CS_AS"), $"%{search.ToLower()}%"))
                     .Include(a => a.Images)
                     .ToListAsync();*/
+
+            
             List<Animal> animals = await _context.Animals
                     /*.Where(
                         x =>
@@ -49,13 +87,15 @@ namespace API.Controllers
                     .ToListAsync();
 
 
-            List<Animal> filteredAnimals = animals.Where(x =>
+            return animals
+                .Where(
+                    x =>
                         x.Name.ToLower().Contains(search.ToLower()) ||
-                        x.Latinname.ToLower().Contains(search.ToLower())).ToList();
-            List<Animal> slicedAnimals = filteredAnimals.Skip(page == 1 ? 0 : (page - 1) * limit).Take(limit).ToList();
-            
-
-            return slicedAnimals;
+                        x.Latinname.ToLower().Contains(search.ToLower())
+                 )
+                .Skip(page == 1 ? 0 : (page - 1) * limit)
+                .Take(limit)
+                .ToList();
 
 
             /*return await _context.Animals
@@ -66,17 +106,7 @@ namespace API.Controllers
             //x.Name.Equals(search)
             // || x.Latinname.Equals(search)
             //return BadRequest(new { message = "Error" });
-            if (false)
-            {
-                /*return await _context.Animals.Include(a => a.Images)
-                    .Where(x => x.Name.ToLower() == search.ToLower())
-                    .Where(x => x.Latinname.ToLower() == search.ToLower())
 
-                    //.Include(c => c.Orders.Where(o => o.Name != "Foo")).ThenInclude(o => o.Images)
-                    //.Include(c => c.Orders.Where(o => o.Name != "Foo")).ThenInclude(o => o.Customer)
-                    .Skip(page == 1 ? 0 : page * limit)
-                    .Take(limit).ToListAsync();*/
-            }
             /*return await _context.Animals.Include(x => x.Images).Skip(page == 1 ? 0 : page * limit)
                 .Take(limit)
                 .ToListAsync();*/

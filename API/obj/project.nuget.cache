@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rZYrxiCN9pD8UWG8WftS7LGt4Xx2qijhSZwqqZ6tyJVdKf3PgED2cE+5bSD/Wsh/09chwsNFDMUGkEyrO4HqWg==",
+  "dgSpecHash": "8rK0l3rjtKAftIFN1zjLg/BzLjsrtCMnWhMwmyhRTkc8GEHhDrbr/I+lNo3Hw4QNZzVpK7dWUPu+Pm7FMtseLw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Derid\\projects\\dotnet\\ZooAdmin\\API\\API.csproj",
   "expectedPackageFiles": [
@@ -49,7 +49,8 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Derid\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
-    "C:\\Users\\Derid\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
+    "C:\\Users\\Derid\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
+    "C:\\Users\\Derid\\.nuget\\packages\\winstonpuckett.pipeextensions\\1.0.0\\winstonpuckett.pipeextensions.1.0.0.nupkg.sha512"
   ],
   "logs": []
 }

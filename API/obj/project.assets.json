@@ -823,6 +823,15 @@
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
+      },
+      "WinstonPuckett.PipeExtensions/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/WinstonPuckett.PipeExtensions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/WinstonPuckett.PipeExtensions.dll": {}
+        }
       }
     }
   },
@@ -2091,6 +2100,19 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "WinstonPuckett.PipeExtensions/1.0.0": {
+      "sha512": "TLmLF26ZsHNxX9xCCE9bpEbEm0dCDyhT71RHFpaBWLqZXiYmWpn7ciIzpHNpilKMcaznBh60mJeKRzoxQX68fw==",
+      "type": "package",
+      "path": "winstonpuckett.pipeextensions/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/WinstonPuckett.PipeExtensions.dll",
+        "winstonpuckett.pipeextensions.1.0.0.nupkg.sha512",
+        "winstonpuckett.pipeextensions.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -2101,7 +2123,8 @@
       "Microsoft.EntityFrameworkCore.Design >= 7.0.3",
       "Microsoft.EntityFrameworkCore.Sqlite >= 7.0.3",
       "Newtonsoft.Json >= 13.0.2",
-      "System.IdentityModel.Tokens.Jwt >= 6.27.0"
+      "System.IdentityModel.Tokens.Jwt >= 6.27.0",
+      "WinstonPuckett.PipeExtensions >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2179,6 +2202,10 @@
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[6.27.0, )"
+          },
+          "WinstonPuckett.PipeExtensions": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [

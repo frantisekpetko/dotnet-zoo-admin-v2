@@ -74,3 +74,4 @@ C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net7.0\runtimes\linux-s390
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net7.0\runtimes\maccatalyst-arm64\native\libe_sqlite3.dylib
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net7.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
 C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net7.0\runtimes\osx-arm64\native\libe_sqlite3.dylib
+C:\Users\Derid\projects\dotnet\ZooAdmin\API\bin\Debug\net7.0\WinstonPuckett.PipeExtensions.dll
