@@ -4,7 +4,6 @@ using API.Entities;
 namespace API.Entities
 {
     [Table("user")]
-
     public class User: BaseEntity
 {
         [JsonProperty("id")]

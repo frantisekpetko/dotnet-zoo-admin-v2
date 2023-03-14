@@ -11,7 +11,9 @@ namespace API.Entities
 
         [JsonProperty("link")]
         public string Link { get; set; }
+
         public int AnimalId { get; set; }
+
         public Animal Animal { get; set; }
     }
 }

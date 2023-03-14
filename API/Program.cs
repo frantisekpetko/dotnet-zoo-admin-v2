@@ -12,25 +12,7 @@ using Newtonsoft.Json;
 
 namespace API
 {
-    public class JsonAnimal
-    {
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("latinname")]
-        public string Latinname { get; set; }
-
-
-        [JsonProperty("extract")]
-        public string Description { get; set; }
-
-        [JsonProperty("image")]
-        public string Image { get; set; }
-
-        [JsonProperty("extlinks")]
-        public List<string> Extlinks { get; set; }
-    }
     public class Program
     {
         public static void Main(string[] args)

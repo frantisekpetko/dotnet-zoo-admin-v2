@@ -6,8 +6,9 @@
     "\\DTOs",
     "\\Entities",
     "\\Interfaces",
+    "\\Middleware",
     "\\Properties"
   ],
-  "SelectedNode": "\\Controllers\\AnimalController.cs",
+  "SelectedNode": "\\Entities\\Image.cs",
   "PreviewInSolutionExplorer": false
 }

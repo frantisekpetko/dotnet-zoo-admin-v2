@@ -134,14 +134,15 @@ namespace API.Data {
             using var hmac = new HMACSHA512();
 
             modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = 1,
-                Username = "user",
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("123456")),
-                PasswordSalt = hmac.Key,
-                CreatedAt = DateTime.UtcNow
-            });
+                new User
+                {
+                    Id = 1,
+                    Username = "user",
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("123456")),
+                    PasswordSalt = hmac.Key,
+                    CreatedAt = DateTime.UtcNow
+                }
+            );
 
             string fileName = Path.GetFullPath(Directory.GetCurrentDirectory() + @"\Data\animals.json");
             string jsonString = File.ReadAllText(fileName);
