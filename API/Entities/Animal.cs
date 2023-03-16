@@ -8,6 +8,7 @@ namespace API.Entities
     [Table("animal")]
     public class Animal: BaseEntity
     {
+
         [JsonProperty("id")]
         public int Id { get; set; }
         

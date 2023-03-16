@@ -52,9 +52,7 @@ const ExlinkContainer = styled.div`
 `;
 
 const ExtlinkWrapper =  styled.div`
-    idth: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    width: 100%;
     margin-top: 0.5rem;
 `
 
@@ -95,7 +93,7 @@ export default function DetailPage() {
                     }
 
                     <ExlinkContainer>
-                        <h4>Links:</h4>
+                        <h4 style={{width: '100%'}}>Links:</h4>
                         {animal?.extlinks?.map((e, id) => {
                             const link = `${e.link.slice(0, 35)}...`;
                             return (

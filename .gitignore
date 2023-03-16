@@ -1,1 +1,10 @@
 frontend/node_modules
+
+API/database.db
+API/obj
+API/bin
+API/database.db-shm
+API/database.db-wal
+API/.ionide
+API/.vs
+API/.vscode

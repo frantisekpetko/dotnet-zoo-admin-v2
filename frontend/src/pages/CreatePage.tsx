@@ -198,6 +198,7 @@ const CreatePage: FC = () => {
                 if (selectedFile !== null) {
                     const formData = new FormData();
                     formData.append('image', selectedFile);
+      		    formData.append('fileName', selectedFile.name);
                     data = (await Ajax.post('animals/file', formData));
                 }
 

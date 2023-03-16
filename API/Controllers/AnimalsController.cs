@@ -19,9 +19,10 @@ using Microsoft.Extensions.Hosting;
 namespace API.Controllers
 {
 
-    public class ImageResponse {
+    public class ImageResponse
+    {
         [JsonProperty("image")]
-        public string Image {get; set; }
+        public string Image { get; set; }
     }
 
     public class AnimalsController : BaseApiController
@@ -149,29 +150,53 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> create(CreateUpdateAnimalDto createUpdateAnimalDto)
+        public async Task<ActionResult> Create(CreateUpdateAnimalDto createUpdateAnimalDto)
         {
             Animal _animal = new Animal();
             _animal.Name = createUpdateAnimalDto.Name;
             _animal.Latinname =  createUpdateAnimalDto.Latinname;
             _animal.Description = createUpdateAnimalDto.Description;
+            _animal.CreatedAt = DateTime.UtcNow;
 
+            _context.Attach(_animal);
+            /*
             Image i = new Image();
             i.UrlName = createUpdateAnimalDto.Image;
             i.CreatedAt = DateTime.UtcNow;
             Console.WriteLine($"Image: {createUpdateAnimalDto.Image}");
             _animal.Images.Add(i);
+            */
 
+
+            Console.WriteLine("Image: " + createUpdateAnimalDto.Image + " " + createUpdateAnimalDto.Image.Equals(""));
+            //_animal.Images.Clear();
+            Image i = new Image();
+            i.UrlName = createUpdateAnimalDto.Image;
+            //i.Animal = _animal;
+            //i.UrlName = createUpdateAnimalDto.Image;
+            //Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
+            i.CreatedAt = DateTime.UtcNow;
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_animal));
+
+            //_context.Attach(_animal);
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_animal));
+            _animal.Images = new List<Image>();
+            _animal.Images.Add(i);
+            //_animal.Images.First().UrlName = createUpdateAnimalDto.Image;
+            //_animal.Images.First().CreatedAt = DateTime.UtcNow;
+
+            _animal.Extlinks = new List<Extlink>();
             foreach (string extlink in createUpdateAnimalDto.Extlinks)
             {
                 Extlink e = new Extlink();
 
                 e.Link = extlink;
                 e.CreatedAt = DateTime.UtcNow;
+                //e.Animal = _animal;
                 _animal.Extlinks.Add(e);
 
             }
-
+            _context.Add(_animal);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -205,37 +230,81 @@ namespace API.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> update([FromRoute] int? id)
+        public async Task<ActionResult<Animal>> Update([FromRoute] int? id, CreateUpdateAnimalDto createUpdateAnimalDto)
         {
 
-            var animal = await this.findAnimal(id);
+            Animal _animal = await findAnimal(id);
 
-            Animal _animal = new Animal();
-            _animal.Name = animal.Name;
-            _animal.Latinname =  animal.Latinname;
-            _animal.Description = animal.Description;
+            _animal.Name = createUpdateAnimalDto.Name;
+            _animal.Latinname =  createUpdateAnimalDto.Latinname;
+            _animal.Description = createUpdateAnimalDto.Description;
+            _animal.UpdatedAt = DateTime.UtcNow;
 
+
+            _context.Attach(_animal);
+            //_animal.Images.Clear();
+            Console.WriteLine("Image: " + createUpdateAnimalDto.Image);
+
+            //var i = new List<Image>(_animal.Images.ToList());
+            var i = new List<Image>();
+            _animal.Images.Clear();
+            _animal.Images = new List<Image>();
+       
+            Image _i = new Image();
+            //i.First().UrlName = createUpdateAnimalDto.Image;
+            _i.UrlName = createUpdateAnimalDto.Image;
+            _i.UpdatedAt = DateTime.UtcNow;
+            //Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
+            //i.First().UpdatedAt = DateTime.UtcNow;
+            i.Add(_i);
+            //i.Animal = _animal;
+            _context.Attach(_i);
+            //_animal.Images.First().UrlName = createUpdateAnimalDto.Image;
+            //_animal.Images.First().CreatedAt = DateTime.UtcNow;
+
+
+            /*
             Image i = new Image();
-            i.UrlName = animal.Images.First().UrlName;
+            i.UrlName = createUpdateAnimalDto.Image;
+            Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
             i.CreatedAt = DateTime.UtcNow;
             _animal.Images.Add(i);
-
-            foreach (Extlink extlink in animal.Extlinks)
+            */
+            //_animal.Extlinks.Clear();
+            int index = 0;
+            var e = new List<Extlink>(_animal.Extlinks);
+            _animal.Extlinks.Clear();
+            _animal.Extlinks = new List<Extlink>();
+            //Console.WriteLine("Extlinks:" + Newtonsoft.Json.JsonConvert.SerializeObject(e));
+            foreach (string extlink in createUpdateAnimalDto.Extlinks)
             {
-                Extlink e = new Extlink();
+                //List<Extlink> e = _animal.Extlinks;
+                Extlink _e = new Extlink();
+                _e.Link = extlink;
+                _e.CreatedAt = DateTime.UtcNow;
+                index++;
+                _context.Attach(_e);
+                _animal.Extlinks.Add(_e);
+                //e.Animal = _animal;
 
-                e.Link = extlink.Link;
-                e.CreatedAt = DateTime.UtcNow;
-                _animal.Extlinks.Add(e);
 
             }
-
+            //_context.Attach(_animal);
+            //_context.Add(_animal);
+            //_context.Update(_animal);
+            //_context.Add(_animal);
+   
+;
+     
+            _animal.Images.Add(_i);
+            _context.Update(_animal);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return await findAnimal(id);
+            //return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> delete([FromRoute] int? id)
+        public async Task<ActionResult> Delete([FromRoute] int? id)
         {
             var _animal = await this.findAnimal(id);
 
@@ -251,28 +320,28 @@ namespace API.Controllers
             return NotFound();
         }
 
-        
+
         [HttpPost("file")]
-        public ActionResult<ImageResponse> handleUpload([FromForm] IFormFile file)
+        public ActionResult<ImageResponse> handleUpload([FromForm] ImageDto file)
         {
-            string FileName = file.FileName;
+            //string FileName = file.FileName;
 
             // combining GUID to create unique name before saving in wwwroot
-            string uniqueFileName = Guid.NewGuid().ToString() + Math.Ceiling(new Random().Next() * 1e9) + "_" + FileName;
+            string uniqueFileName = Guid.NewGuid().ToString() + Math.Ceiling(new Random().Next() * 1e9) + "_" + file.FileName;
 
             // getting full path inside wwwroot/images
             var imagePath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                _env.IsDevelopment() 
-                ? "../frontend/public/images" 
+                _env.IsDevelopment()
+                ? "../frontend/public/images"
                 : "../frontend/dist/images", uniqueFileName);
 
             // copying file
-            file.CopyTo(new FileStream(imagePath, FileMode.Create));
+            file.Image.CopyTo(new FileStream(imagePath, FileMode.Create));
 
             return new ImageResponse { Image = uniqueFileName };
         }
-        
+
 
     }
 }
