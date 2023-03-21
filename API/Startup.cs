@@ -94,7 +94,7 @@ namespace API
 
             
             app.UseMiddleware<ExceptionMiddleware>();
-            Console.WriteLine(env.IsDevelopment());
+            
             if (env.IsDevelopment())
             {
                 app.UseHsts();
