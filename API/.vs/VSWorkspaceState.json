@@ -5,10 +5,11 @@
     "\\Data",
     "\\DTOs",
     "\\Entities",
+    "\\Extensions",
     "\\Interfaces",
     "\\Middleware",
     "\\Properties"
   ],
-  "SelectedNode": "\\Entities\\Image.cs",
+  "SelectedNode": "\\Startup.cs",
   "PreviewInSolutionExplorer": false
 }

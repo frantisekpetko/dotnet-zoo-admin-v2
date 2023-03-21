@@ -120,7 +120,7 @@ namespace API
                .AllowCredentials()
                .WithOrigins("http://localhost:5000", "http://localhost:4000"));
 
-            //, "http://localhost:5000" "http://localhost:4000"
+            // "http://localhost:5000" "http://localhost:4000"
 
             var fileServerOptions = new FileServerOptions
             {
