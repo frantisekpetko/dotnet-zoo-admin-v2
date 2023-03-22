@@ -47,9 +47,6 @@ namespace API.Controllers
             [FromQuery(Name = "search")] string search = ""
         )
         {
-            //List<Animal> animals = await this.getAll(null, limit, search);
-            //return (int) Math.Ceiling((double) animals.Count / limit);
-
             Console.WriteLine(search);
 
             List<Animal> animals = await _context.Animals
@@ -66,33 +63,7 @@ namespace API.Controllers
 
             return (int)Math.Ceiling((double)animals.Count / limit);
         }
-        /*
-        private async Task<Animal> findAnimal(int? id)
-        {
-            var animal = await _context.Animals
-            .Include(a => a.Images)
-            .Include(a => a.Extlinks)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(a => a.Id == id);
 
-            return animal;
-        }
-
-        private async Task<List<Animal>> getAll(
-            int page = 1,
-            int limit = 12,
-            string search = ""
-)
-        {
-            Console.WriteLine(search);
-
-            List<Animal> animals = await _context.Animals
-                    .Include(a => a.Images)
-                    .ToListAsync();
-
-            return animals;
-        }
-        */
 
         [HttpGet]
         public async Task<ActionResult<List<Animal>>> findAll(
@@ -101,7 +72,6 @@ namespace API.Controllers
             [FromQuery(Name = "search")] string search = ""
         )
         {
-            //return await getAll(page, limit, search);
             Console.WriteLine(search);
 
             List<Animal> animals = await _context.Animals
@@ -118,49 +88,6 @@ namespace API.Controllers
                 .Skip(page == 1 ? 0 : (page - 1) * limit)
                 .Take(limit)
                 .ToList();
-            //search = search.ToLower();
-
-            /*return await _context.Animals
-                    .Where(
-                        x =>
-                        EF.Functions.Like(EF.Functions.Collate(x.Name.ToLower(), "SQL_Latin1_General_CP1_CS_AS"), $"%{search.ToLower()}%") ||
-                        EF.Functions.Like(EF.Functions.Collate(x.Latinname.ToLower(), "SQL_Latin1_General_CP1_CS_AS"), $"%{search.ToLower()}%"))
-                    .Include(a => a.Images)
-                    .ToListAsync();*/
-
-            /*
-            List<Animal> animals = await _context.Animals
-
-                    .Include(a => a.Images)
-                    .ToListAsync();
-            */
-
-            /*return animals
-                .Where(
-                    x =>
-                        x.Name.ToLower().Contains(search.ToLower()) ||
-                        x.Latinname.ToLower().Contains(search.ToLower())
-                 )
-                .Skip(page == 1 ? 0 : (page - 1) * limit)
-                .Take(limit)
-                .ToList();*/
-
-
-            /*return await _context.Animals
-                    .Where(x => EF.Functions.Like(x.Name, $"%{search}%") || EF.Functions.Like(x.Latinname, $"%{search}%"))
-                    .Include(a => a.Images)
-                    .ToListAsync();*/
-
-            //x.Name.Equals(search)
-            // || x.Latinname.Equals(search)
-            //return BadRequest(new { message = "Error" });
-
-            /*return await _context.Animals.Include(x => x.Images).Skip(page == 1 ? 0 : page * limit)
-                .Take(limit)
-                .ToListAsync();*/
-
-            //.ToListAsync();
-
         }
 
 
@@ -174,31 +101,20 @@ namespace API.Controllers
             _animal.CreatedAt = DateTime.UtcNow;
 
             _context.Attach(_animal);
-            /*
+       
+            //Console.WriteLine("Image: " + createUpdateAnimalDto.Image + " " + createUpdateAnimalDto.Image.Equals(""));
+         
             Image i = new Image();
             i.UrlName = createUpdateAnimalDto.Image;
-            i.CreatedAt = DateTime.UtcNow;
-            Console.WriteLine($"Image: {createUpdateAnimalDto.Image}");
-            _animal.Images.Add(i);
-            */
-
-
-            Console.WriteLine("Image: " + createUpdateAnimalDto.Image + " " + createUpdateAnimalDto.Image.Equals(""));
-            //_animal.Images.Clear();
-            Image i = new Image();
-            i.UrlName = createUpdateAnimalDto.Image;
-            //i.Animal = _animal;
-            //i.UrlName = createUpdateAnimalDto.Image;
-            //Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
+       
             i.CreatedAt = DateTime.UtcNow;
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_animal));
 
-            //_context.Attach(_animal);
+        
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_animal));
             _animal.Images = new List<Image>();
             _animal.Images.Add(i);
-            //_animal.Images.First().UrlName = createUpdateAnimalDto.Image;
-            //_animal.Images.First().CreatedAt = DateTime.UtcNow;
+      
 
             _animal.Extlinks = new List<Extlink>();
             foreach (string extlink in createUpdateAnimalDto.Extlinks)
@@ -207,7 +123,6 @@ namespace API.Controllers
 
                 e.Link = extlink;
                 e.CreatedAt = DateTime.UtcNow;
-                //e.Animal = _animal;
                 _animal.Extlinks.Add(e);
 
             }
@@ -248,17 +163,14 @@ namespace API.Controllers
 
 
             _context.Attach(_animal);
-            //_animal.Images.Clear();
-            Console.WriteLine("Image: " + createUpdateAnimalDto.Image);
-
-            //var i = new List<Image>(_animal.Images.ToList());
+         
             var i = new List<Image>();
             string origImage = _animal.Images.First().UrlName;
             _animal.Images.Clear();
             _animal.Images = new List<Image>();
        
             Image _i = new Image();
-            //i.First().UrlName = createUpdateAnimalDto.Image;
+     
 
             if (createUpdateAnimalDto.Image != null)
                 _i.UrlName = createUpdateAnimalDto.Image;
@@ -266,53 +178,36 @@ namespace API.Controllers
                 _i.UrlName = origImage;
 
             _i.UpdatedAt = DateTime.UtcNow;
-            //Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
-            //i.First().UpdatedAt = DateTime.UtcNow;
+       
             i.Add(_i);
-            //i.Animal = _animal;
+       
             _context.Attach(_i);
-            //_animal.Images.First().UrlName = createUpdateAnimalDto.Image;
-            //_animal.Images.First().CreatedAt = DateTime.UtcNow;
-
-
-            /*
-            Image i = new Image();
-            i.UrlName = createUpdateAnimalDto.Image;
-            Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
-            i.CreatedAt = DateTime.UtcNow;
-            _animal.Images.Add(i);
-            */
-            //_animal.Extlinks.Clear();
+         
             int index = 0;
             var e = new List<Extlink>(_animal.Extlinks);
             _animal.Extlinks.Clear();
             _animal.Extlinks = new List<Extlink>();
-            //Console.WriteLine("Extlinks:" + Newtonsoft.Json.JsonConvert.SerializeObject(e));
+        
             foreach (string extlink in createUpdateAnimalDto.Extlinks)
             {
-                //List<Extlink> e = _animal.Extlinks;
+
                 Extlink _e = new Extlink();
                 _e.Link = extlink;
                 _e.CreatedAt = DateTime.UtcNow;
                 index++;
                 _context.Attach(_e);
                 _animal.Extlinks.Add(_e);
-                //e.Animal = _animal;
-
-
+ 
             }
-            //_context.Attach(_animal);
-            //_context.Add(_animal);
-            //_context.Update(_animal);
-            //_context.Add(_animal);
+  
    
 ;
      
             _animal.Images.Add(_i);
             _context.Update(_animal);
             await _context.SaveChangesAsync();
-            return await _animalsRepository.findAnimal(id);
-            //return NoContent();
+            
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -336,12 +231,11 @@ namespace API.Controllers
         [HttpPost("file")]
         public ActionResult<ImageResponse> handleUpload([FromForm] ImageDto file)
         {
-            //string FileName = file.FileName;
-
-            // combining GUID to create unique name before saving in wwwroot
+ 
+            // combining GUID to create unique name before saving
             string uniqueFileName = Guid.NewGuid().ToString() + Math.Ceiling(new Random().Next() * 1e9) + "_" + file.FileName;
 
-            // getting full path inside wwwroot/images
+            // getting full path inside frontend/public/images or frontend/dist/images depends on development or production mode
             var imagePath = Path.Combine(
                 Directory.GetCurrentDirectory(),
                 _env.IsDevelopment()
