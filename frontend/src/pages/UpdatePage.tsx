@@ -94,7 +94,7 @@ function UpdatePage() {
 
     const updateAnimal = useStoreActions((actions) => actions.animal.updateAnimal);
 
-
+    const [isFilePicked, setIsFilePicked] = useState(false);
 
 
     useEffect(() => {
@@ -170,6 +170,8 @@ function UpdatePage() {
         setIsCheckingForm(false);
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -181,7 +183,8 @@ function UpdatePage() {
         if (!(values.length > 0)) {
             try {
                 let data: any = '';
-                if (selectedFile !== null) {
+                
+                if (selectedFile !== null && isFilePicked) {
                     const formData = new FormData();
                     formData.append('image', selectedFile);
                     formData.append('fileName', selectedFile.name);
@@ -321,7 +324,12 @@ function UpdatePage() {
                                 <HeadingCenter>
                                     <Heading>Update Animal</Heading>
                                 </HeadingCenter>
-                                <UploadImage setSelectedFile={setSelectedFile} image={formValues.image} />
+                                <UploadImage 
+                                setSelectedFile={setSelectedFile} 
+                                image={formValues.image} 
+                                isFilePicked={isFilePicked}
+                                setIsFilePicked={setIsFilePicked}
+                                />
 
 
                                 <InputField

@@ -41,7 +41,7 @@ namespace API.Controllers
         public IAnimalsRepository _animalsRepository => new AnimalsRepository(_context);
 
         [HttpGet("pages")]
-        public async Task<ActionResult<int>> getPagesLength(
+        public async Task<ActionResult<int>> GetPagesLength(
             [FromQuery(Name = "page")] int? page,
             [FromQuery(Name = "limit")] int limit = 12,
             [FromQuery(Name = "search")] string search = ""
@@ -53,7 +53,7 @@ namespace API.Controllers
                     .Include(a => a.Images)
                     .ToListAsync();
 
-            (await _animalsRepository.getAll())
+            (await _animalsRepository.GetAll())
                 .Where(
                     x =>
                         x.Name.ToLower().Contains(search.ToLower()) ||
@@ -66,7 +66,7 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<Animal>>> findAll(
+        public async Task<ActionResult<List<Animal>>> FindAll(
             [FromQuery(Name = "page")] int page = 1,
             [FromQuery(Name = "limit")] int limit = 12,
             [FromQuery(Name = "search")] string search = ""
@@ -79,7 +79,7 @@ namespace API.Controllers
                 .ToListAsync();
 
 
-            return (await _animalsRepository.getAll())
+            return (await _animalsRepository.GetAll())
                 .Where(
                     x =>
                         x.Name.ToLower().Contains(search.ToLower()) ||
@@ -138,9 +138,9 @@ namespace API.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Animal>> findOne([FromRoute] int? id)
+        public async Task<ActionResult<Animal>> FindOne([FromRoute] int? id)
         {
-            var animal = await _animalsRepository.findAnimal(id);
+            var animal = await _animalsRepository.FindAnimal(id);
 
             if (animal == null)
             {
@@ -154,7 +154,7 @@ namespace API.Controllers
         public async Task<ActionResult<Animal>> Update([FromRoute] int? id, CreateUpdateAnimalDto createUpdateAnimalDto)
         {
 
-            Animal _animal = await _animalsRepository.findAnimal(id);
+            Animal _animal = await _animalsRepository.FindAnimal(id);
 
             _animal.Name = createUpdateAnimalDto.Name;
             _animal.Latinname =  createUpdateAnimalDto.Latinname;
@@ -199,10 +199,7 @@ namespace API.Controllers
                 _animal.Extlinks.Add(_e);
  
             }
-  
-   
-;
-     
+ 
             _animal.Images.Add(_i);
             _context.Update(_animal);
             await _context.SaveChangesAsync();
@@ -213,7 +210,7 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int? id)
         {
-            var _animal = await _animalsRepository.findAnimal(id);
+            var _animal = await _animalsRepository.FindAnimal(id);
 
             if (_animal is Animal animal)
             {
@@ -229,7 +226,7 @@ namespace API.Controllers
 
 
         [HttpPost("file")]
-        public ActionResult<ImageResponse> handleUpload([FromForm] ImageDto file)
+        public ActionResult<ImageResponse> HandleUpload([FromForm] ImageDto file)
         {
  
             // combining GUID to create unique name before saving

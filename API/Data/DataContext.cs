@@ -51,42 +51,6 @@ namespace API.Data {
             optionsBuilder.EnableSensitiveDataLogging();
         }
 
-        /*
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            var insertedEntries = this.ChangeTracker.Entries()
-                                   .Where(x => x.State == EntityState.Added)
-                                   .Select(x => x.Entity);
-
-            foreach (var insertedEntry in insertedEntries)
-            {
-                var auditableEntity = insertedEntry as BaseEntity;
-                //If the inserted object is an Auditable. 
-                if (auditableEntity != null)
-                {
-                    Console.WriteLine(DateTimeOffset.UtcNow);
-                    auditableEntity.CreatedAt = DateTimeOffset.UtcNow;
-                }
-            }
-
-            var modifiedEntries = this.ChangeTracker.Entries()
-                       .Where(x => x.State == EntityState.Modified)
-                       .Select(x => x.Entity);
-
-            foreach (var modifiedEntry in modifiedEntries)
-            {
-                //If the inserted object is an Auditable. 
-                var auditableEntity = modifiedEntry as BaseEntity;
-                if (auditableEntity != null)
-                {
-                    auditableEntity.UpdatedAt = DateTimeOffset.UtcNow;
-                }
-            }
-
-            return base.SaveChangesAsync(cancellationToken);
-        }
-        */
-
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var insertedEntries = this.ChangeTracker.Entries()

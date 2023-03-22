@@ -17,7 +17,7 @@ namespace API.Data
             _context = context;
         }
 
-        public async Task<Animal> findAnimal(int? id)
+        public async Task<Animal> FindAnimal(int? id)
         {
             var animal = await _context.Animals
             .Include(a => a.Images)
@@ -28,14 +28,12 @@ namespace API.Data
             return animal;
         }
 
-        public async Task<List<Animal>> getAll(
+        public async Task<List<Animal>> GetAll(
             int page = 1,
             int limit = 12,
             string search = ""
 )
         {
-            Console.WriteLine(search);
-
             List<Animal> animals = await _context.Animals
                     .Include(a => a.Images)
                     .ToListAsync();

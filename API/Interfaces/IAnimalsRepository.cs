@@ -7,9 +7,9 @@ namespace API.Interfaces
 {
     public interface IAnimalsRepository
     {
-        Task<Animal> findAnimal(int? id);
+        Task<Animal> FindAnimal(int? id);
 
-        Task<List<Animal>> getAll(
+        Task<List<Animal>> GetAll(
             int page = 1,
             int limit = 12,
             string search = ""

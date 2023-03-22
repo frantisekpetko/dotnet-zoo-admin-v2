@@ -51,8 +51,6 @@ namespace API
             });
             services.AddCors();
             services.AddIdentityServices(_config);
-            //services.AddControllers().AddNewtonsoftJson();
-
 
             services.AddResponseCompression(options =>
             {
@@ -71,13 +69,6 @@ namespace API
                 options.Level = CompressionLevel.Optimal;
             });
 
-            /*
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
-            */
-            
             services.AddControllers().AddNewtonsoftJson(
                 options => 
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -91,68 +82,38 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            
             app.UseMiddleware<ExceptionMiddleware>();
             
             if (env.IsDevelopment())
             {
                 app.UseHsts();
-
                 //app.UseDeveloperExceptionPage();
-
             }
 
             app.UseResponseCompression();
-            /*
-            app.UseFileServer(new FileServerOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "../frontend/dist")),
-                    RequestPath = "",
-                    EnableDefaultFiles = true,
-                    EnableDirectoryBrowsing = true
-            });
-            */
+
             app.UseCors(policy => policy
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials()
                .WithOrigins("http://localhost:5000", "http://localhost:4000"));
 
-            // "http://localhost:5000" "http://localhost:4000"
-
             var fileServerOptions = new FileServerOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "../frontend/dist")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "../frontend/dist"
+                )),
                 RequestPath = "",
                 EnableDirectoryBrowsing = false,
                 EnableDefaultFiles = true
             };
 
-            // try to find a static file that matches the request
-            app.UseFileServer(fileServerOptions);
-
-            // no static file, try to find an MVC controller
-            //app.UseMvc();
-            
-            // if we made it this far and the route still wasn't matched, return the index
-            /*app.Use(async (context, next) =>
-            {
-                context.Request.Path = "/";
-                await next();
-            });*/
-            
             // send the request through the static file middleware one last time to find your default file
             app.UseFileServer(fileServerOptions);
 
-
             //app.UseHttpsRedirection();
-
             app.UseRouting();
-
-   
-
             app.UseAuthentication();
             app.UseAuthorization();
        

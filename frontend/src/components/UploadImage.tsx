@@ -53,7 +53,9 @@ const Label = styled.div`
 
 interface Props {
     setSelectedFile: (image: File) => void;
-    image?: string | undefined
+    image?: string | undefined,
+    isFilePicked: boolean,
+    setIsFilePicked: (boolean) => void;
 }
  
 const UploadImage: FunctionComponent<Props> = (props) => {
@@ -68,6 +70,7 @@ const UploadImage: FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         (async () => {
+            console.log('useEffectFile');
             if (props.image !== '' && props.image !== undefined) {
                 props.setSelectedFile(
                     await dataUrlToFile(
@@ -75,7 +78,7 @@ const UploadImage: FunctionComponent<Props> = (props) => {
                         props.image
                     )
                 );
-                setIsFilePicked(true);
+                props.setIsFilePicked(true);
                 setBase64String(`${window.location.protocol}//${window.location.hostname}:${window.location.port}/images/${props.image}`);
             }  
         })();
@@ -85,13 +88,14 @@ const UploadImage: FunctionComponent<Props> = (props) => {
     }, [])
 
     const [base64String, setBase64String] = useState<string>('data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
-    const [isFilePicked, setIsFilePicked] = useState(false);
+    //const [isFilePicked, setIsFilePicked] = useState(false);
 
     const fileRef = useRef() as MutableRefObject<HTMLInputElement>;
     const changeHandler = (event) => {
+        console.log('changeHandlerFile: ' + event.target.files[0]);
         setBase64String(URL.createObjectURL(event.target.files[0]));
-        props.setSelectedFile(event.target.files[0])
-        setIsFilePicked(true);
+        props.setSelectedFile(event.target.files[0]);
+        props.setIsFilePicked(true);
 
     };
 
@@ -100,7 +104,7 @@ const UploadImage: FunctionComponent<Props> = (props) => {
             <ImageContainer onClick={() => { fileRef.current.click(); }}>
                 <ImageUpload src={base64String.toString()} />
 
-                <Label>{isFilePicked ? 'Reupload Image' : 'Upload Image'}</Label>
+                <Label>{props.isFilePicked ? 'Reupload Image' : 'Upload Image'}</Label>
 
                 <FileInput ref={fileRef} type="file" name="file" onChange={changeHandler} accept='image/*' />
 
