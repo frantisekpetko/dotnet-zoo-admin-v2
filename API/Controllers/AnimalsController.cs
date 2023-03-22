@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Data;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -37,6 +38,8 @@ namespace API.Controllers
             _env = env;
         }
 
+        public IAnimalsRepository _animalsRepository => new AnimalsRepository(_context);
+
         [HttpGet("pages")]
         public async Task<ActionResult<int>> getPagesLength(
             [FromQuery(Name = "page")] int? page,
@@ -53,7 +56,7 @@ namespace API.Controllers
                     .Include(a => a.Images)
                     .ToListAsync();
 
-            (await this.getAll())
+            (await _animalsRepository.getAll())
                 .Where(
                     x =>
                         x.Name.ToLower().Contains(search.ToLower()) ||
@@ -62,6 +65,17 @@ namespace API.Controllers
                 .ToList();
 
             return (int)Math.Ceiling((double)animals.Count / limit);
+        }
+        /*
+        private async Task<Animal> findAnimal(int? id)
+        {
+            var animal = await _context.Animals
+            .Include(a => a.Images)
+            .Include(a => a.Extlinks)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+            return animal;
         }
 
         private async Task<List<Animal>> getAll(
@@ -78,6 +92,7 @@ namespace API.Controllers
 
             return animals;
         }
+        */
 
         [HttpGet]
         public async Task<ActionResult<List<Animal>>> findAll(
@@ -94,7 +109,7 @@ namespace API.Controllers
                 .ToListAsync();
 
 
-            return (await this.getAll())
+            return (await _animalsRepository.getAll())
                 .Where(
                     x =>
                         x.Name.ToLower().Contains(search.ToLower()) ||
@@ -204,22 +219,13 @@ namespace API.Controllers
 
         }
 
-        private async Task<Animal> findAnimal(int? id)
-        {
-            var animal = await _context.Animals
-            .Include(a => a.Images)
-            .Include(a => a.Extlinks)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(a => a.Id == id);
 
-            return animal;
-        }
 
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Animal>> findOne([FromRoute] int? id)
         {
-            var animal = await this.findAnimal(id);
+            var animal = await _animalsRepository.findAnimal(id);
 
             if (animal == null)
             {
@@ -233,7 +239,7 @@ namespace API.Controllers
         public async Task<ActionResult<Animal>> Update([FromRoute] int? id, CreateUpdateAnimalDto createUpdateAnimalDto)
         {
 
-            Animal _animal = await findAnimal(id);
+            Animal _animal = await _animalsRepository.findAnimal(id);
 
             _animal.Name = createUpdateAnimalDto.Name;
             _animal.Latinname =  createUpdateAnimalDto.Latinname;
@@ -247,12 +253,18 @@ namespace API.Controllers
 
             //var i = new List<Image>(_animal.Images.ToList());
             var i = new List<Image>();
+            string origImage = _animal.Images.First().UrlName;
             _animal.Images.Clear();
             _animal.Images = new List<Image>();
        
             Image _i = new Image();
             //i.First().UrlName = createUpdateAnimalDto.Image;
-            _i.UrlName = createUpdateAnimalDto.Image;
+
+            if (createUpdateAnimalDto.Image != null)
+                _i.UrlName = createUpdateAnimalDto.Image;
+            else
+                _i.UrlName = origImage;
+
             _i.UpdatedAt = DateTime.UtcNow;
             //Console.WriteLine($"UrlName: {createUpdateAnimalDto.Image}");
             //i.First().UpdatedAt = DateTime.UtcNow;
@@ -299,14 +311,14 @@ namespace API.Controllers
             _animal.Images.Add(_i);
             _context.Update(_animal);
             await _context.SaveChangesAsync();
-            return await findAnimal(id);
+            return await _animalsRepository.findAnimal(id);
             //return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int? id)
         {
-            var _animal = await this.findAnimal(id);
+            var _animal = await _animalsRepository.findAnimal(id);
 
             if (_animal is Animal animal)
             {
