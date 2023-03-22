@@ -1,4 +1,4 @@
-import{s as n,r as o,j as s,F as a,a as e,H as i,N as r,C as d,b as g}from"./index.12df985c.js";const m=n.h2`
+import{s as n,r as o,j as s,F as a,a as e,H as i,N as r,C as d,b as g}from"./index.1470851c.js";const m=n.h2`
     text-align: center;
     padding: 0 0.5em;
     font-family: 'Nothing You Could Do', cursive;
