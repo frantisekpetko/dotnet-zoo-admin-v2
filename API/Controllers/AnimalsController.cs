@@ -53,7 +53,7 @@ namespace API.Controllers
                     .Include(a => a.Images)
                     .ToListAsync();
 
-            (await _animalsRepository.GetAll())
+            var filteredAnimals = (await _animalsRepository.GetAll())
                 .Where(
                     x =>
                         x.Name.ToLower().Contains(search.ToLower()) ||
@@ -61,7 +61,7 @@ namespace API.Controllers
                     )
                 .ToList();
 
-            return (int)Math.Ceiling((double)animals.Count / limit);
+            return (int)Math.Ceiling((double)filteredAnimals.Count / limit);
         }
 
 
